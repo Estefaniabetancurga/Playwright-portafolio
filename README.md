@@ -1,10 +1,10 @@
 # Playwright Portafolio 
 
-Automated end-to-end test built with **Playwright** and **TyeScript**
+Automated end-to-end tests built with **Playwright** and **TypeScript**
 
-## about 
+## About 
 
-This project is part of my learning path in Qa Automation.I am a QA Tester with experience in manual testing, and I'm building automated test suites to practice real-world testing scenarios.
+This project is part of my learning path in Qa Automation. I am a QA Tester with experience in manual testing, and I'm building automated test suites to practice real-world testing scenarios.
 
 ## Test Suite: Login (saucedemo.com)
 
