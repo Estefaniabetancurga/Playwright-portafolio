@@ -1,4 +1,4 @@
-# Playright Portafolio 
+# Playwright Portafolio 
 
 Automated end-to-end test built with **Playwright** and **TyeScript**
 
@@ -29,6 +29,12 @@ npm install
 npx playwright install
 npx playwright test
 ```
+
+## Next Steps 
+
+- Page Object Model
+- API testing with Playwright
+- CI/CD with Github Actions
 
 ## Author
 
