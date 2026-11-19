@@ -1,17 +1,20 @@
 import {test, expect} from '@playwright/test';
 
+import { LoginPage } from '../pages/LoginPage'; 
+
 test.describe ('login',() => {
 
 
-test.beforeEach (async ({page}) => {
-    await page.goto('https://www.saucedemo.com');
+let loginPage: LoginPage;
+
+test.beforeEach(async ({page}) =>{
+    loginPage= new LoginPage(page);
+    await loginPage.goto ();
 });
 
 test ('login existoso con usuario valido', async ({ page }) => {
-
-    await page.getByPlaceholder('Username').fill('standard_user');
-    await page.getByPlaceholder('Password').fill('secret_sauce');
-    await page.getByRole('button',{name: 'Login'}).click();
+ 
+    await loginPage.login('standard_user', 'secret_sauce');
 
     await expect(page).toHaveURL(/inventory/);
     await expect(page.getByText('Products')).toBeVisible();
@@ -20,38 +23,31 @@ test ('login existoso con usuario valido', async ({ page }) => {
 test ('usuario bloqueado', async ({page}) => {
 
 
-    await page.getByPlaceholder('Username').fill('locked_out_user');
-    await page.getByPlaceholder('Password').fill('secret_sauce');
-    await page.getByRole('button',{name: 'Login'}).click();
+    await loginPage.login('locked_out_user', 'secret_sauce');
 
-    await expect(page.locator('[data-test="error"]')).toContainText('Sorry, this user has been locked out.');
+    await expect(loginPage.errorMessage).toContainText('Sorry, this user has been locked out.');
 });
 test ('contraseña incorrecta', async ({page}) => {
 
-    
-    await page.getByPlaceholder('Username').fill('standard_user');
-    await page.getByPlaceholder('Password').fill('clave_mala');
-    await page.getByRole('button',{name: 'Login'}).click();
+    await loginPage.login('standard_user', 'clave_mala');
 
-    await expect(page.locator('[data-test="error"]')).toContainText('Username and password do not match any user in this service');
+    await expect(loginPage.errorMessage).toContainText('Username and password do not match any user in this service');
     
   });
 
 test ('Usuario Vacio', async ({page}) => {
 
-    await page.getByPlaceholder('Password').fill('secret_sauce');
-    await page.getByRole('button',{name:'Login'}).click();
+    await loginPage.login('', 'secret_sauce');
 
-    await expect(page.locator('[data-test="error"]')).toContainText('Username is required');
+    await expect(loginPage.errorMessage).toContainText('Username is required');
 
 });
 
 test ('Contraseña Vacia', async ({page}) => {
 
-    await page.getByPlaceholder('Username').fill('standard_user');
-    await page.getByRole('button',{name:'Login'}).click();
+    await loginPage.login('standard_user','');
 
-    await expect(page.locator('[data-test="error"]')).toContainText('Password is required');
+    await expect(loginPage.errorMessage).toContainText('Password is required');
 
 });
 }); 
